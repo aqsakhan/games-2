@@ -77,7 +77,7 @@ def check_have_fish():
 
     have_fish_color_check1 = pyautogui.pixelMatchesColor(1623, 866, (28, 67, 193), tolerance=30)
     if have_fish_color_check1:
-        logger.info(now_yupiao_pix)
+        # logger.info(now_yupiao_pix)
         logger.info(yupiao_pix)
         logger.info('能量条变蓝了')
         return True
@@ -99,10 +99,10 @@ if __name__ == '__main__':
             # 投杆
             init_yupiao()
             # tougan(1.7)
-            tougan(1.53)
+            tougan(0.1)
             then = time.time()
             # # 等待鱼饵落底
-            time.sleep(8)
+            time.sleep(5)
 
             while True:
                 if check_zero_length():
@@ -115,9 +115,12 @@ if __name__ == '__main__':
                 now = time.time()
                 diff = int(now - then) // 60
 
-                if check_have_fish() or (diff > 5):
+                if check_have_fish() or (diff > 10):
                     logger.info('上鱼了或者到5分钟了，自动起杆')
+
+                    time.sleep(1)
                     pyautogui.keyDown('enter')
+                    time.sleep(1)
                     pyautogui.keyDown('space')
 
                     while True:

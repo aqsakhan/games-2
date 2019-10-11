@@ -11,6 +11,9 @@ import pyautogui
 import logging
 import random
 
+move_mouse_flag = True
+move_mouse_px = 0
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(lineno)d - %(message)s')
 logger = logging.getLogger(__name__)
 
@@ -37,25 +40,50 @@ def check_zero_length():
 
 def tougan(keep_time=1.8):
     # 投杆
+    move_mouse()
     logger.info('执行自动投杆')
     pyautogui.keyDown('space')
     time.sleep(keep_time)
     pyautogui.keyUp('space')
 
+def move_mouse():
+    global move_mouse_flag
+    global move_mouse_px
+
+    if move_mouse_flag:
+        move_mouse_px = random.randint(100, 200)
+        pyautogui.moveRel(move_mouse_px, 0, duration=0.25)
+        logger.info(move_mouse_px)
+        move_mouse_flag = False
+    else:
+        pyautogui.moveRel(-move_mouse_px, 0, duration=0.25)
+        logger.info(-move_mouse_px)
+        move_mouse_flag = True
 
 
 def shouxian():
     # 收线
-    logger.info('收线ing')
-    pyautogui.keyDown('space')
+    # logger.info('收线ing')
+    # pyautogui.keyDown('space')
 
-
-    # stime = random.uniform(0.04, 0.045)
-    stime = 0.15
-    time.sleep(0.6)
     pyautogui.keyDown('enter')
-    time.sleep(stime)
+    time.sleep(0.02)
+    pyautogui.keyDown('space')
+    time.sleep(0.25)
     pyautogui.keyUp('enter')
+    time.sleep(0.1)
+    pyautogui.keyUp('space')
+    time.sleep(1.4)
+
+
+
+
+    # # stime = random.uniform(0.04, 0.045)
+    # stime = 0.15
+    # time.sleep(0.6)
+    # pyautogui.keyDown('enter')
+    # time.sleep(stime)
+    # pyautogui.keyUp('enter')
 
 
 def check_have_fish():
@@ -78,9 +106,9 @@ if __name__ == '__main__':
             # 检测成就提示窗
             # check_big_button()
             # 投杆
-            tougan(1.5)
+            tougan(1.4)
             # 等待鱼饵落底
-            time.sleep(2)
+            time.sleep(4)
 
             while True:
                 if check_zero_length():
@@ -99,15 +127,7 @@ if __name__ == '__main__':
                     while True:
                         # 取鱼
                         time.sleep(1)
-                        location_img = pyautogui.locateOnScreen('qu.png')
-
-                        if location_img:
-                            logger.info('收线完成，弹出取鱼弹窗')
-                            pyautogui.keyUp('enter')
-                            pyautogui.keyUp('space')
-                            time.sleep(3)
-                            break
-                        elif check_zero_length():
+                        if check_zero_length():
                             logger.info('收线完成，重新投杆')
                             pyautogui.keyUp('enter')
                             pyautogui.keyUp('space')
@@ -132,16 +152,10 @@ if __name__ == '__main__':
                     while True:
                         # 取鱼
                         time.sleep(1)
-                        location_img = pyautogui.locateOnScreen('qu.png')
 
-                        if location_img:
-                            logger.info('收线完成，弹出取鱼弹窗')
-                            pyautogui.keyUp('enter')
-                            pyautogui.keyUp('space')
-                            time.sleep(3)
-                            break
-                        elif check_zero_length():
+                        if check_zero_length():
                             logger.info('收线完成，重新投杆')
+
                             pyautogui.keyUp('enter')
                             pyautogui.keyUp('space')
                             time.sleep(3)

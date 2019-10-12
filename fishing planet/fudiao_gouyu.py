@@ -12,6 +12,7 @@ import logging
 import random
 import time
 import keyboard
+import pygame
 
 then = 0
 now = 0
@@ -21,6 +22,29 @@ yupiao_pix = pyautogui.pixel(1762, 347)
 logging.basicConfig(level=logging.INFO, filename="test.log", filemode="w", format='%(asctime)s - %(name)s - %(levelname)s - %(lineno)d - %(message)s')
 logger = logging.getLogger(__name__)
 
+
+def check_fishfort_status():
+    color_check = pyautogui.pixelMatchesColor(91, 251, (250, 195, 0), tolerance=10)
+    if color_check:
+        pyautogui.keyDown('t')
+        # location_img = pyautogui.locateOnScreen('continue.png')
+
+
+
+        exit()
+        # logger.info('鱼库满了')
+        # file = '七里香.mp3'
+        # pygame.mixer.init()
+        # track = pygame.mixer.music.load(file)
+        # pygame.mixer.music.play()
+        # time.sleep(296)
+        # pygame.mixer.music.stop()
+
+
+
+        return True
+
+    return False
 
 def get_keybord_status():
     global switch_flag
@@ -92,6 +116,10 @@ if __name__ == '__main__':
 
     while True:
 
+        if check_fishfort_status():
+            time.sleep(1)
+            continue
+
         # 检查是否该投杆
         if check_zero_length():
             logger.info('线距为0')
@@ -118,9 +146,9 @@ if __name__ == '__main__':
                 if check_have_fish() or (diff > 10):
                     logger.info('上鱼了或者到5分钟了，自动起杆')
 
-                    time.sleep(1)
+                    time.sleep(0.3)
                     pyautogui.keyDown('enter')
-                    time.sleep(1)
+                    time.sleep(0.5)
                     pyautogui.keyDown('space')
 
                     while True:
@@ -138,5 +166,5 @@ if __name__ == '__main__':
                             logger.info('收线完成，重新投杆')
                             pyautogui.keyUp('enter')
                             pyautogui.keyUp('space')
-                            time.sleep(2)
+                            time.sleep(5)
                             break

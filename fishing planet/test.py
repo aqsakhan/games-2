@@ -13,8 +13,3 @@ import pyautogui
 
 pyautogui.moveTo(980, 670)
 pyautogui.click()
-# pyautogui.keyDown('t')
-
-location_img = pyautogui.locateOnScreen('continue.png')
-
-print(location_img)

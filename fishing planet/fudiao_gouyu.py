@@ -26,12 +26,11 @@ logger = logging.getLogger(__name__)
 def check_fishfort_status():
     color_check = pyautogui.pixelMatchesColor(91, 251, (250, 195, 0), tolerance=10)
     if color_check:
-        pyautogui.keyDown('t')
+        time.sleep(3)
+        pyautogui.press('t')
         # location_img = pyautogui.locateOnScreen('continue.png')
 
-
-
-        exit()
+        time.sleep(5)
         # logger.info('鱼库满了')
         # file = '七里香.mp3'
         # pygame.mixer.init()
@@ -39,8 +38,6 @@ def check_fishfort_status():
         # pygame.mixer.music.play()
         # time.sleep(296)
         # pygame.mixer.music.stop()
-
-
 
         return True
 
@@ -146,9 +143,9 @@ if __name__ == '__main__':
                 if check_have_fish() or (diff > 10):
                     logger.info('上鱼了或者到5分钟了，自动起杆')
 
-                    time.sleep(0.3)
+                    time.sleep(0.2)
                     pyautogui.keyDown('enter')
-                    time.sleep(0.5)
+                    time.sleep(0.3)
                     pyautogui.keyDown('space')
 
                     while True:
